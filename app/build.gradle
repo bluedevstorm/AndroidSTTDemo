@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.application'
+}
+
+ext {
+    grpcVersion = '1.61.0' // gRPC 버전
+}
+
+android {
+    namespace 'com.example.googlespeechtotext'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.example.googlespeechtotext"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/DEPENDENCIES' // 충돌 방지를 위해 추가
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // cloud client library
+    implementation 'com.google.cloud:google-cloud-speech:4.30.0'
+    implementation "io.grpc:grpc-okhttp:$grpcVersion"
+    implementation "io.grpc:grpc-stub:$grpcVersion"
+    implementation 'com.google.api.grpc:grpc-google-cloud-speech-v1:1.20.0'
+    implementation('com.google.auth:google-auth-library-oauth2-http:0.7.0') {
+        exclude module: 'httpclient'
+    }
+}
